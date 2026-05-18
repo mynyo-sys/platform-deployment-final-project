@@ -18,5 +18,9 @@ php bin/console doctrine:migrations:migrate --no-interaction --env=prod
 echo "Starting PHP-FPM..."
 php-fpm -D
 
+echo "Configuring Nginx port..."
+envsubst '$PORT' < /etc/nginx/conf.d/default.conf > /etc/nginx/conf.d/default.conf.tmp
+mv /etc/nginx/conf.d/default.conf.tmp /etc/nginx/conf.d/default.conf
+
 echo "Starting Nginx..."
 exec nginx -g "daemon off;"
