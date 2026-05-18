@@ -7,8 +7,6 @@ var/log
 vendor
 node_modules
 docker-compose.yaml
-nginx.conf
-nginx-main.conf
 README.md
 *.md
 .editorconfig
