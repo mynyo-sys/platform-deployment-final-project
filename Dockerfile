@@ -11,10 +11,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libicu-dev \
     libxml2-dev \
     libonig-dev \
+    nginx \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install PHP extentions
+# Install PHP extensions
 RUN docker-php-ext-install \
     intl \
     xml \
@@ -28,24 +29,28 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
     --install-dir=/usr/local/bin \
     --filename=composer
 
-# Copy project files 
+# Copy project files
 COPY . .
 
-#Install Composer dependencies
+# Copy Nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx-main.conf /etc/nginx/nginx.conf
+
+# Install Composer dependencies
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer install \
     --no-interaction \
     --no-dev \
     --optimize-autoloader
 
-#Set proper permissions for Symfony
+# Set proper permissions for Symfony
 RUN mkdir -p var/cache var/log var/cache/prod \
     && chmod -R 777 var/ \
     && chown -R www-data:www-data var/
 
-#Copy and set entrypoint
+# Copy and set entrypoint
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-EXPOSE 9000
+EXPOSE 80
 
 ENTRYPOINT ["/entrypoint.sh"]
