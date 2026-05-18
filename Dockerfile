@@ -32,12 +32,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
 COPY . .
 
 #Install Composer dependencies
-RUN composer install \
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install \
     --no-interaction \
     --no-dev \
-    --optimize-autoloader \
-    --no-plugins \
-    --no-scripts
+    --optimize-autoloader
 
 #Set proper permissions for Symfony
 RUN mkdir -p var/cache var/log var/cache/prod \
