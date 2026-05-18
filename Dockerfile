@@ -35,7 +35,9 @@ COPY . .
 RUN composer install \
     --no-interaction \
     --no-dev \
-    --optimize-autoloader
+    --optimize-autoloader \
+    --no-plugins \
+    --no-scripts
 
 #Set proper permissions for Symfony
 RUN mkdir -p var/cache var/log var/cache/prod \
