@@ -52,6 +52,6 @@ RUN mkdir -p var/cache var/log var/cache/prod \
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-EXPOSE 9000
+EXPOSE 8080
 
 ENTRYPOINT ["/entrypoint.sh"]

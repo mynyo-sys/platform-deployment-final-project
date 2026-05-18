@@ -46,6 +46,20 @@ services:
     networks:
       - final-project-network
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: final-project-phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_USER: ${MYSQL_USER}
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
+    networks:
+      - final-project-network
+
 volumes:
   final-project-db-data:
   app_var:
