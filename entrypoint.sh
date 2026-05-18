@@ -16,4 +16,7 @@ echo "Running database migrations..."
 php bin/console doctrine:migrations:migrate --no-interaction --env=prod
 
 echo "Starting PHP-FPM..."
-exec php-fpm
+php-fpm -D
+
+echo "Starting Nginx..."
+exec nginx -g "daemon off;"
