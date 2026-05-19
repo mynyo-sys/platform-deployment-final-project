@@ -33,15 +33,16 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
 # Copy project files
 COPY . .
 
-# Copy Nginx config
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy Nginx configs
+COPY nginx.conf /etc/nginx/conf.d/default.conf.template
 COPY nginx-main.conf /etc/nginx/nginx.conf
 
 # Install Composer dependencies
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer install \
     --no-interaction \
     --no-dev \
-    --optimize-autoloader
+    --optimize-autoloader \
+    --no-scripts
 
 # Set proper permissions for Symfony
 RUN mkdir -p var/cache var/log var/cache/prod \
@@ -52,6 +53,7 @@ RUN mkdir -p var/cache var/log var/cache/prod \
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+# Railway sets $PORT at runtime; default to 8080 for local Docker
 EXPOSE 8080
 
 ENTRYPOINT ["/entrypoint.sh"]
