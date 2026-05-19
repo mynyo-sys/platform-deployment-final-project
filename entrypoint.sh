@@ -10,6 +10,9 @@ echo "Fixing permissions..."
 chmod -R 777 /var/www/html/var
 chown -R www-data:www-data /var/www/html/var
 
+echo "Installing JS assets..."
+php bin/console importmap:install
+
 echo "Clearing and warming up Symfony cache..."
 php bin/console cache:clear --env=prod --no-debug
 
